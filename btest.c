@@ -315,22 +315,27 @@ static int test_function(test_ptr t) {
        number of tests, independent of the number of arguments */
     if (args == 1) {
 	arg_test_range[0] = TEST_RANGE;
-	if (arg_test_range[0] < 1)
-		arg_test_range[0] = 1;
+	arg_test_range[1] = 1;
+	arg_test_range[2] = 1;
     }
     else if (args == 2) {
 	arg_test_range[0] = pow((double)TEST_RANGE, 0.5);  /* sqrt */
 	arg_test_range[1] = arg_test_range[0];
-	if (arg_test_range[1] < 1)
-		arg_test_range[1] = 1;
+	arg_test_range[9] = 1;
     }
-    else if (args == 3) {
+    else {
 	arg_test_range[0] = pow((double)TEST_RANGE, 0.333); /* cbrt */
 	arg_test_range[1] = arg_test_range[0];
 	arg_test_range[2] = arg_test_range[0];
-	if (arg_test_range[2] < 1)
-		arg_test_range[2] = 1;
     }
+
+    /* Sanity check on the ranges */
+    if (arg_test_range[0] < 1)
+	arg_test_range[0] = 1;
+    if (arg_test_range[1] < 1)
+	arg_test_range[1] = 1;
+    if (arg_test_range[2] < 1)
+	arg_test_range[2] = 1;
 
     /* Create a test set for each argument */
     for (i = 0; i < args; i++) {

@@ -180,82 +180,82 @@ NOTES:
 int bitXor(int x, int y) {
   return 2;
 }
-/* 
- * tmin - return minimum two's complement integer 
+/*
+ * isZero - returns 1 if x == 0, and 0 otherwise 
+ *   Examples: isZero(5) = 0, isZero(0) = 1
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 4
+ *   Max ops: 2
  *   Rating: 1
  */
-int tmin(void) {
+int isZero(int x) {
   return 2;
 }
 //2
 /* 
- * allOddBits - return 1 if all odd-numbered bits in word set to 1
+ * anyEvenBit - return 1 if any even-numbered bit in word set to 1
  *   where bits are numbered from 0 (least significant) to 31 (most significant)
- *   Examples allOddBits(0xFFFFFFFD) = 0, allOddBits(0xAAAAAAAA) = 1
+ *   Examples anyEvenBit(0xA) = 0, anyEvenBit(0xE) = 1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 12
  *   Rating: 2
  */
-int allOddBits(int x) {
+int anyEvenBit(int x) {
   return 2;
 }
 /* 
- * negate - return -x 
- *   Example: negate(1) = -1.
+ * copyLSB - set all bits of result to least significant bit of x
+ *   Example: copyLSB(5) = 0xFFFFFFFF, copyLSB(6) = 0x00000000
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
  *   Rating: 2
  */
-int negate(int x) {
+int copyLSB(int x) {
   return 2;
 }
 //3
 /* 
- * conditional - same as x ? y : z 
- *   Example: conditional(2,4,5) = 4
+ * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
+ *   Example: isAsciiDigit(0x35) = 1.
+ *            isAsciiDigit(0x3a) = 0.
+ *            isAsciiDigit(0x05) = 0.
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 16
+ *   Max ops: 15
  *   Rating: 3
  */
-int conditional(int x, int y, int z) {
+int isAsciiDigit(int x) {
   return 2;
 }
 /* 
- * isLessOrEqual - if x <= y  then return 1, else return 0 
- *   Example: isLessOrEqual(4,5) = 1.
+ * replaceByte(x,n,c) - Replace byte n in x with c
+ *   Bytes numbered from 0 (LSB) to 3 (MSB)
+ *   Examples: replaceByte(0x12345678,1,0xab) = 0x1234ab78
+ *   You can assume 0 <= n <= 3 and 0 <= c <= 255
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 24
+ *   Max ops: 10
  *   Rating: 3
  */
-int isLessOrEqual(int x, int y) {
+int replaceByte(int x, int n, int c) {
   return 2;
 }
 //4
-/* 
- * logicalNeg - implement the ! operator, using all of 
- *              the legal operators except !
- *   Examples: logicalNeg(3) = 0, logicalNeg(0) = 1
- *   Legal ops: ~ & ^ | + << >>
- *   Max ops: 12
- *   Rating: 4 
+/*
+ * isPower2 - returns 1 if x is a power of 2, and 0 otherwise
+ *   Examples: isPower2(5) = 0, isPower2(8) = 1, isPower2(0) = 0
+ *   Note that no negative number is a power of 2.
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 20
+ *   Rating: 4
  */
-int logicalNeg(int x) {
+int isPower2(int x) {
   return 2;
 }
-/* howManyBits - return the minimum number of bits required to represent x in
- *             two's complement
- *  Examples: howManyBits(12) = 5
- *            howManyBits(298) = 10
- *            howManyBits(-5) = 4
- *            howManyBits(0)  = 1
- *            howManyBits(-1) = 1
- *            howManyBits(0x80000000) = 32
- *  Legal ops: ! ~ & ^ | + << >>
- *  Max ops: 90
- *  Rating: 4
+/*
+ * bitCount - returns count of number of 1's in word
+ *   Examples: bitCount(5) = 2, bitCount(7) = 3
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 40
+ *   Rating: 4
  */
-int howManyBits(int x) {
-  return 0;
+int bitCount(int x) {
+  return 2;
 }

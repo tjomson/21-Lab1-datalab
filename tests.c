@@ -65,39 +65,56 @@ int test_bitXor(int x, int y)
 {
   return x^y;
 }
-int test_tmin(void) {
-  return 0x80000000;
+int test_isZero(int x) {
+  return x == 0;
 }
 //2
-int test_allOddBits(int x) {
+int test_anyEvenBit(int x) {
   int i;
-  for (i = 1; i < 32; i+=2)
-      if ((x & (1<<i)) == 0)
-   return 0;
-  return 1;
+  for (i = 0; i < 32; i+=2)
+      if (x & (1<<i))
+   return 1;
+  return 0;
 }
-int test_negate(int x) {
-  return -x;
+int test_copyLSB(int x)
+{
+  return (x & 0x1) ? -1 : 0;
 }
 //3
-int test_conditional(int x, int y, int z)
-{
-  return x?y:z;
+int test_isAsciiDigit(int x) {
+  return (0x30 <= x) && (x <= 0x39);
 }
-int test_isLessOrEqual(int x, int y)
+int test_replaceByte(int x, int n, int c)
 {
-  return x <= y;
+    switch(n) {
+    case 0:
+      x = (x & 0xFFFFFF00) | c;
+      break;
+    case 1:
+      x = (x & 0xFFFF00FF) | (c << 8);
+      break;
+    case 2:
+      x = (x & 0xFF00FFFF) | (c << 16);
+      break;
+    default:
+      x = (x & 0x00FFFFFF) | (c << 24);
+      break;
+    }
+    return x;
 }
 //4
-int test_logicalNeg(int x)
-{
-  return !x;
+int test_isPower2(int x) {
+  int i;
+  for (i = 0; i < 31; i++) {
+    if (x == 1<<i)
+      return 1;
+  }
+  return 0;
 }
-int test_howManyBits(int x) {
-    unsigned int a, cnt;
-    x = x<0 ? -x-1 : x;
-    a = (unsigned int)x;
-    for (cnt=0; a; a>>=1, cnt++)
-        ;
-    return (int)(cnt + 1);
+int test_bitCount(int x) {
+  int result = 0;
+  int i;
+  for (i = 0; i < 32; i++)
+    result += (x >> i) & 0x1;
+  return result;
 }

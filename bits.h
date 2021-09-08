@@ -36,20 +36,20 @@
 //1
 int bitXor(int, int);
 int test_bitXor(int, int);
-int tmin();
-int test_tmin();
+int isZero(int);
+int test_isZero(int);
 //2
-int allOddBits();
-int test_allOddBits();
-int negate(int);
-int test_negate(int);
+int anyEvenBit();
+int test_anyEvenBit();
+int copyLSB(int);
+int test_copyLSB(int);
 //3
-int conditional(int, int, int);
-int test_conditional(int, int, int);
-int isLessOrEqual(int, int);
-int test_isLessOrEqual(int, int);
+int isAsciiDigit(int);
+int test_isAsciiDigit(int);
+int replaceByte(int, int, int);
+int test_replaceByte(int, int, int);
 //4
-int logicalNeg(int);
-int test_logicalNeg(int);
-int howManyBits(int);
-int test_howManyBits(int);
+int isPower2(int);
+int test_isPower2(int);
+int bitCount(int);
+int test_bitCount(int);
