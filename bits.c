@@ -178,7 +178,11 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+ // I AND negation of x and y, and negation of y and x.
+ // Now i have the bits that should be on, as both of these, and i would use and OR if i could.
+ // Instead i negate both and AND them together which turns all of the ones that should be 1 to 0,
+ // and all the ones that should be 0 to 1. So i negate it once more.
+ return ~(~(~x & y) & ~(x & ~y));
 }
 /*
  * isZero - returns 1 if x == 0, and 0 otherwise 
@@ -188,7 +192,9 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int isZero(int x) {
-  return 2;
+  // I take the logical negation of x. If x is 0 then it will return 1.
+  // If x is anything else, it evaluates to 0.
+  return !x;
 }
 //2
 /* 
@@ -200,9 +206,19 @@ int isZero(int x) {
  *   Rating: 2
  */
 int anyEvenBit(int x) {
-  return 2;
+  // I make a number that is a sequence of bits, where even ones are 1, and odd ones are 0, that is shift3
+  // Then i AND it with x, such that if any even bit is 1 in x, then the result will be more than 0
+  // Then i double negate the result to get it as either 0 or 1
+  int base = 0x55;
+  int shift1 = base << 8 | base;
+  int shift2 = shift1 << 8 | base;
+  int shift3 = shift2 << 8 | base;
+  
+  return !!(x & shift3);
 }
-/* 
+
+/*
+ * copyLSB - set all bits of result to least significant bit of x
  * copyLSB - set all bits of result to least significant bit of x
  *   Example: copyLSB(5) = 0xFFFFFFFF, copyLSB(6) = 0x00000000
  *   Legal ops: ! ~ & ^ | + << >>
@@ -210,7 +226,9 @@ int anyEvenBit(int x) {
  *   Rating: 2
  */
 int copyLSB(int x) {
-  return 2;
+  // Shifting the number 31 times to the left, leaves only the first bit untouched.
+  // Shifting it 31 times to the right, will then pad with whatever the first bit is.
+  return x << 31 >> 31;
 }
 //3
 /* 
@@ -223,6 +241,7 @@ int copyLSB(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
+  // I could not figure this one out.
   return 2;
 }
 /* 
@@ -235,7 +254,19 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return 2;
+  // First i find the position of the byte to be replaced. I do this by shifting n 3 times,
+  // which is equivalent to multiplying by 8 because 2^3=8
+  // i then shift n by this much. Then i make a mask consisting of all 1's,
+  // except the byte to be replaced, which will be all 0's.
+  // then i AND x and the mask, which yields x, but with 0's in place of the byte to be replaced.
+  // finally i or this and the replacement-byte.
+  int fullByte = 0xff;
+  int allOnes = ~0;
+  int times8 = n << 3;
+  int replacer = c << times8;
+  int andMask = allOnes ^ (fullByte << times8);
+  int nuked = x & andMask;
+  return nuked | replacer;
 }
 //4
 /*
@@ -247,7 +278,16 @@ int replaceByte(int x, int n, int c) {
  *   Rating: 4
  */
 int isPower2(int x) {
-  return 2;
+  // I make a mask of a 1 and 31 0's, to check whether the number is negative.
+  // I then check if only one bit is on, which would indicate that the number is a power of 2.
+  // I do this by AND'ing x and x-1 together. If only one bit is on, then this will yield 0.
+  // Finally i also check that x is not zero.
+  int minusOne = ~0;
+  int isPowerOf2 = !(x & (x + minusOne));
+  int negativeMask = 0x1 << 31;
+  int isNegative = x & negativeMask;
+  int isZero = !x;
+  return isPowerOf2 & !isNegative & !isZero;
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -257,5 +297,28 @@ int isPower2(int x) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  // Solution based on slides from lecture 2.
+  // Repeated 5 times, for 1, 2, 4, 8, 16, 32 shifts, due to int being 32 bits.
+  // Each time mask off 0101... then 00110011... then 00001111... and so on
+  int zeroOne = 0x55;
+  int firstMask1 = (zeroOne << 8) | zeroOne;
+  int firstMask2 = (firstMask1 << 16) | firstMask1;
+  int second = 0x33;
+  int secondMask1 = (second << 8) | second;
+  int secondMask2 = (secondMask1 << 16) | secondMask1;
+  int third = 0x0f;
+  int thirdMask1 = (third << 8) | third;
+  int thirdMask2 = (thirdMask1 << 16) | thirdMask1;
+  int fullByte = 0xff;
+  int fourthMask = fullByte << 16 | fullByte;
+  int fifthMask = (fullByte << 8) | fullByte;
+
+  x = (x & firstMask2) + ((x >> 1) & firstMask2);
+  x = (x & secondMask2) + ((x >> 2) & secondMask2);
+  x = (x & thirdMask2) + ((x >> 4) & thirdMask2);
+  x = (x & fourthMask) + ((x >> 8) & fourthMask);
+  x = (x & fifthMask) + ((x >> 16) & fifthMask);
+
+  return x;
 }
+
