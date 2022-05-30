@@ -284,7 +284,7 @@ int isPower2(int x) {
   // Finally i also check that x is not zero.
   int minusOne = ~0;
   int isPowerOf2 = !(x & (x + minusOne));
-  int negativeMask = 0x1 << 31;
+  int negativeMask = 1 << 31;
   int isNegative = x & negativeMask;
   int isZero = !x;
   return isPowerOf2 & !isNegative & !isZero;
